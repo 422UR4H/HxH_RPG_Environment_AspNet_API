@@ -4,7 +4,7 @@ public class Experience(ExpTable expTable, int points = 0)
 {
   private readonly ExpTable ExpTable = expTable;
   public int Points { get; private set; } = points;
-  private int level;
+  private int level = 0;
 
   public int GetLvl()
   {
