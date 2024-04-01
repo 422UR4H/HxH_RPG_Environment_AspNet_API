@@ -6,11 +6,15 @@ public class ExpTable
   public const double A_PARAM = 3.7;
   public const double B_PARAM = 2.8;
 
+  public double Coefficient { get; }
+
   private static List<int> BaseTable { get; } = [MAX_LVL];
   private static List<int> AggregateTable { get; } = [MAX_LVL];
 
   public ExpTable(double coefficient = 1.0)
   {
+    Coefficient = coefficient;
+
     BaseTable.Add(0);
     AggregateTable.Add(0);
 
