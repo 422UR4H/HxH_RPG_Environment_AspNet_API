@@ -1,6 +1,4 @@
-using HxH_RPG_Environment.Domain.Experiences;
-
-namespace HxH_RPG_Environment.Domain.PubSub;
+namespace HxH_RPG_Environment.Domain.Experiences;
 
 public interface ICascadeUpgrade
 {
