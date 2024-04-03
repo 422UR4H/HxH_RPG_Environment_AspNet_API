@@ -6,8 +6,8 @@ public class Ability(Experience exp) : ICascadeUpgrade
 {
   public Experience Exp { get; } = exp;
 
-  public void Upgrade(int value)
+  public void Upgrade(int exp)
   {
-    Exp.IncreasePoints(value);
+    Exp.IncreasePoints(exp);
   }
 }
