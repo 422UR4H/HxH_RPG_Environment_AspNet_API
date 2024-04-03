@@ -1,10 +1,17 @@
 namespace HxH_RPG_Environment.Domain.Experiences;
 
-public class Experience(ExpTable expTable, int points = 0)
+public class Experience
 {
-  private readonly ExpTable ExpTable = expTable;
-  public int Points { get; private set; } = points;
-  private int level = 0;
+  private readonly ExpTable ExpTable;
+  public int Points { get; private set; }
+  private int level;
+
+  public Experience(ExpTable expTable, int points = 0)
+  {
+    ExpTable = expTable;
+    Points = points;
+    level = GetLvlByExp();
+  }
 
   public int GetLvl()
   {
@@ -49,5 +56,10 @@ public class Experience(ExpTable expTable, int points = 0)
     int diff = GetLvlByExp() - level;
     if (diff != 0) Upgrade();
     return diff;
+  }
+
+  public Experience Clone()
+  {
+    return new Experience(ExpTable, Points);
   }
 }
