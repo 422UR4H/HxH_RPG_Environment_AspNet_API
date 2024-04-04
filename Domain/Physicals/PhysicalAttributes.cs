@@ -26,15 +26,15 @@ public class PhysicalAttributes
     attributes.Add(AttributeName.Agility, agility);
     attributes.Add(AttributeName.Velocity, velocity);
 
-    PrimaryAttribute dexterity = primaryAttribute.Clone();
-    MiddleAttribute actionSpeed = new(exp.Clone(), physAbilityExp, [agility, dexterity]);
-    attributes.Add(AttributeName.Dexterity, dexterity);
+    PrimaryAttribute flexibility = primaryAttribute.Clone();
+    MiddleAttribute actionSpeed = new(exp.Clone(), physAbilityExp, [agility, flexibility]);
+    attributes.Add(AttributeName.Flexibility, flexibility);
     attributes.Add(AttributeName.ActionSpeed, actionSpeed);
 
     PrimaryAttribute sense = primaryAttribute.Clone();
-    MiddleAttribute reflex = new(exp.Clone(), physAbilityExp, [dexterity, sense]);
+    MiddleAttribute dexterity = new(exp.Clone(), physAbilityExp, [flexibility, sense]);
     attributes.Add(AttributeName.Sense, sense);
-    attributes.Add(AttributeName.Reflex, reflex);
+    attributes.Add(AttributeName.Dexterity, dexterity);
   }
 
   // TODO: refactor to throw exception
