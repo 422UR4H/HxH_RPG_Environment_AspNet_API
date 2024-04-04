@@ -9,9 +9,10 @@ public enum AttributeName
   Velocity,
   Agility,
   ActionSpeed,
+  Flexibility,
   Dexterity,
-  Reflex,
   Sense,
+  Intuition,
 
   // Mentals
   Resilience,
