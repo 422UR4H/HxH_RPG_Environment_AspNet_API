@@ -12,12 +12,12 @@ public class MiddleAttribute(
   public ICascadeUpgrade AbilityExp { get; } = abilityExp;
   public ICollection<ICascadeUpgrade> PrimaryAttrExps { get; } = primaryAttrExp;
 
-  public void Upgrade(int exp)
+  public void CascadeUpgrade(int exp)
   {
     Exp.IncreasePoints(exp);
     foreach (ICascadeUpgrade primaryAttrExp in PrimaryAttrExps)
     {
-      primaryAttrExp.Upgrade(exp);
+      primaryAttrExp.CascadeUpgrade(exp);
     }
   }
 }

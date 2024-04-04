@@ -10,10 +10,10 @@ public class PrimaryAttribute(
   public Experience Exp { get; } = exp;
   public ICascadeUpgrade AbilityExp { get; } = abilityExp;
 
-  public void Upgrade(int exp)
+  public void CascadeUpgrade(int exp)
   {
     Exp.IncreasePoints(exp);
-    AbilityExp.Upgrade(exp);
+    AbilityExp.CascadeUpgrade(exp);
   }
 
   public PrimaryAttribute Clone()
