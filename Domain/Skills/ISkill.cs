@@ -6,4 +6,6 @@ public interface ISkill : ITriggerCascadeExp
 {
   public ICascadeUpgrade AttributeExp { get; }
   public IEndCascadeUpgrade AbilitySkillsExp { get; }
+
+  public int GetLvl();
 }

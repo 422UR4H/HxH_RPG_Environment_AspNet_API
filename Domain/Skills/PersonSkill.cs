@@ -18,6 +18,11 @@ public class PersonSkill(
     AbilitySkillsExp.TriggerEndUpgrade(exp);
   }
 
+  public int GetLvl()
+  {
+    return Exp.GetLvl();
+  }
+
   public PersonSkill Clone()
   {
     return new PersonSkill(Exp.Clone(), AttributeExp, AbilitySkillsExp);

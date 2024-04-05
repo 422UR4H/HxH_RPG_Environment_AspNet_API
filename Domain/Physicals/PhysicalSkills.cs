@@ -96,11 +96,16 @@ public class PhysicalSkills : ICascadeUpgrade, IEndCascadeUpgrade
     skills.Add(SkillName.Balance, senSkill.Clone());
   }
 
-  // TODO: refactor to throw exception
-  public ISkill? Get(SkillName name)
+  // TODO: refactor this exception
+  public ISkill Get(SkillName name)
   {
-    skills.TryGetValue(name, out ISkill? attr);
-    return attr;
+    return skills.GetValueOrDefault(name) ??
+      throw new Exception("Skill not found!");
+  }
+
+  public int GetLvlOf(SkillName name)
+  {
+    return Get(name).GetLvl();
   }
 
   public void CascadeUpgrade(int exp)
