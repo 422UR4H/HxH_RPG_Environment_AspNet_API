@@ -15,8 +15,8 @@ public enum SkillName
   // Strength
   Climb,
   Push,
-  Pull,
   Grab,
+  CarryCapacity,
 
   // Velocity
   Run,

@@ -43,8 +43,8 @@ public class PhysicalSkills : ICascadeUpgrade, IEndCascadeUpgrade
     PersonSkill strSkill = new(skillExp.Clone(), str, this);
     skills.Add(SkillName.Climb, strSkill.Clone());
     skills.Add(SkillName.Push, strSkill.Clone());
-    skills.Add(SkillName.Pull, strSkill.Clone());
     skills.Add(SkillName.Grab, strSkill.Clone());
+    skills.Add(SkillName.CarryCapacity, strSkill.Clone());
 
     var vel = physAttributes.GetValueOrDefault(AttributeName.Velocity) ??
       throw new Exception("AttributeName not found!");
