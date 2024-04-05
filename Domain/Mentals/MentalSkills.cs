@@ -37,6 +37,11 @@ public class MentalSkills : ICascadeUpgrade, IEndCascadeUpgrade
     return Get(name).GetLvl();
   }
 
+  public int GetValueForTestOf(SkillName name)
+  {
+    return Get(name).GetValueForTest();
+  }
+
   public void CascadeUpgrade(int exp)
   {
     Exp.IncreasePoints(exp);

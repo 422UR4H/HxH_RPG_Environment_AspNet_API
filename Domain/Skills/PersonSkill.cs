@@ -1,20 +1,21 @@
+using HxH_RPG_Environment.Domain.Attributes;
 using HxH_RPG_Environment.Domain.Experiences;
 
 namespace HxH_RPG_Environment.Domain.Skills;
 
 public class PersonSkill(
   Experience exp,
-  ICascadeUpgrade attributeExp,
+  IGameAttribute attribute,
   IEndCascadeUpgrade abilitySkillsExp) : ISkill
 {
   public Experience Exp { get; } = exp;
-  public ICascadeUpgrade AttributeExp { get; } = attributeExp;
+  public IGameAttribute Attribute { get; } = attribute;
   public IEndCascadeUpgrade AbilitySkillsExp { get; } = abilitySkillsExp;
 
   public void TriggerCascadeUpgrade(int exp)
   {
     Exp.IncreasePoints(exp);
-    AttributeExp.CascadeUpgrade(exp);
+    Attribute.CascadeUpgrade(exp);
     AbilitySkillsExp.TriggerEndUpgrade(exp);
   }
 
@@ -23,8 +24,13 @@ public class PersonSkill(
     return Exp.GetLvl();
   }
 
+  public int GetValueForTest()
+  {
+    return Exp.GetLvl() + Attribute.GetPower();
+  }
+
   public PersonSkill Clone()
   {
-    return new PersonSkill(Exp.Clone(), AttributeExp, AbilitySkillsExp);
+    return new PersonSkill(Exp.Clone(), Attribute, AbilitySkillsExp);
   }
 }

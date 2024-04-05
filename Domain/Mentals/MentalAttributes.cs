@@ -20,10 +20,15 @@ public class MentalAttributes
     attributes.Add(AttributeName.Creativity, attribute.Clone());
   }
 
-  // TODO: refactor to throw exception
-  public IGameAttribute? Get(AttributeName name)
+  // TODO: refactor this exception
+  public IGameAttribute Get(AttributeName name)
   {
-    attributes.TryGetValue(name, out IGameAttribute? attr);
-    return attr;
+    return attributes.GetValueOrDefault(name) ??
+      throw new Exception("Attribute not found!");
+  }
+
+  public int GetPowerOf(AttributeName name)
+  {
+    return Get(name).GetPower();
   }
 }

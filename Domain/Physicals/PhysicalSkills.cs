@@ -1,6 +1,7 @@
 using HxH_RPG_Environment.Domain.Experiences;
 using HxH_RPG_Environment.Domain.Skills;
 using HxH_RPG_Environment.Domain.Enums;
+using HxH_RPG_Environment.Domain.Attributes;
 
 namespace HxH_RPG_Environment.Domain.Physicals;
 
@@ -13,7 +14,7 @@ public class PhysicalSkills : ICascadeUpgrade, IEndCascadeUpgrade
 
   public PhysicalSkills(
     Experience physSkillsExp,
-    Dictionary<AttributeName, ICascadeUpgrade> physAttrExps,
+    Dictionary<AttributeName, IGameAttribute> physAttributes,
     ICascadeUpgrade physAbilityExp)
   {
     Exp = physSkillsExp;
@@ -21,7 +22,7 @@ public class PhysicalSkills : ICascadeUpgrade, IEndCascadeUpgrade
 
     Experience skillExp = new(new ExpTable(COEFFICIENT));
 
-    var con = physAttrExps.GetValueOrDefault(AttributeName.Constitution) ??
+    var con = physAttributes.GetValueOrDefault(AttributeName.Constitution) ??
       throw new Exception("AttributeName not found!");
 
     PersonSkill conSkill = new(skillExp.Clone(), con, this);
@@ -30,13 +31,13 @@ public class PhysicalSkills : ICascadeUpgrade, IEndCascadeUpgrade
     skills.Add(SkillName.Breath, conSkill.Clone());
     skills.Add(SkillName.Heal, conSkill.Clone());
 
-    var def = physAttrExps.GetValueOrDefault(AttributeName.Defense) ??
+    var def = physAttributes.GetValueOrDefault(AttributeName.Defense) ??
       throw new Exception("AttributeName not found!");
 
     PersonSkill defSkill = new(skillExp.Clone(), def, this);
     skills.Add(SkillName.Defense, defSkill.Clone());
 
-    var str = physAttrExps.GetValueOrDefault(AttributeName.Strength) ??
+    var str = physAttributes.GetValueOrDefault(AttributeName.Strength) ??
       throw new Exception("AttributeName not found!");
 
     PersonSkill strSkill = new(skillExp.Clone(), str, this);
@@ -45,7 +46,7 @@ public class PhysicalSkills : ICascadeUpgrade, IEndCascadeUpgrade
     skills.Add(SkillName.Pull, strSkill.Clone());
     skills.Add(SkillName.Grab, strSkill.Clone());
 
-    var vel = physAttrExps.GetValueOrDefault(AttributeName.Velocity) ??
+    var vel = physAttributes.GetValueOrDefault(AttributeName.Velocity) ??
       throw new Exception("AttributeName not found!");
 
     PersonSkill velSkill = new(skillExp.Clone(), vel, this);
@@ -53,7 +54,7 @@ public class PhysicalSkills : ICascadeUpgrade, IEndCascadeUpgrade
     skills.Add(SkillName.Swim, velSkill.Clone());
     skills.Add(SkillName.Jump, velSkill.Clone());
 
-    var agi = physAttrExps.GetValueOrDefault(AttributeName.Agility) ??
+    var agi = physAttributes.GetValueOrDefault(AttributeName.Agility) ??
       throw new Exception("AttributeName not found!");
 
     PersonSkill agiSkill = new(skillExp.Clone(), agi, this);
@@ -61,21 +62,21 @@ public class PhysicalSkills : ICascadeUpgrade, IEndCascadeUpgrade
     skills.Add(SkillName.Accelerate, agiSkill.Clone());
     skills.Add(SkillName.Brake, agiSkill.Clone());
 
-    var ats = physAttrExps.GetValueOrDefault(AttributeName.ActionSpeed) ??
+    var ats = physAttributes.GetValueOrDefault(AttributeName.ActionSpeed) ??
       throw new Exception("AttributeName not found!");
 
     PersonSkill atsSkill = new(skillExp.Clone(), ats, this);
     skills.Add(SkillName.ActionSpeed, atsSkill.Clone());
     skills.Add(SkillName.Feint, atsSkill.Clone());
 
-    var flx = physAttrExps.GetValueOrDefault(AttributeName.Flexibility) ??
+    var flx = physAttributes.GetValueOrDefault(AttributeName.Flexibility) ??
       throw new Exception("AttributeName not found!");
 
     PersonSkill flxSkill = new(skillExp.Clone(), flx, this);
     skills.Add(SkillName.Acrobatics, flxSkill.Clone());
     skills.Add(SkillName.Sneak, flxSkill.Clone());
 
-    var dex = physAttrExps.GetValueOrDefault(AttributeName.Dexterity) ??
+    var dex = physAttributes.GetValueOrDefault(AttributeName.Dexterity) ??
       throw new Exception("AttributeName not found!");
 
     PersonSkill dexSkill = new(skillExp.Clone(), dex, this);
@@ -84,7 +85,7 @@ public class PhysicalSkills : ICascadeUpgrade, IEndCascadeUpgrade
     skills.Add(SkillName.Stealth, dexSkill.Clone());
     skills.Add(SkillName.SleightOfHand, dexSkill.Clone());
 
-    var sen = physAttrExps.GetValueOrDefault(AttributeName.Sense) ??
+    var sen = physAttributes.GetValueOrDefault(AttributeName.Sense) ??
       throw new Exception("AttributeName not found!");
 
     PersonSkill senSkill = new(skillExp.Clone(), sen, this);
@@ -106,6 +107,11 @@ public class PhysicalSkills : ICascadeUpgrade, IEndCascadeUpgrade
   public int GetLvlOf(SkillName name)
   {
     return Get(name).GetLvl();
+  }
+
+  public int GetValueForTestOf(SkillName name)
+  {
+    return Get(name).GetValueForTest();
   }
 
   public void CascadeUpgrade(int exp)
