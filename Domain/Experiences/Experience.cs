@@ -10,7 +10,7 @@ public class Experience
   {
     ExpTable = expTable;
     Points = points;
-    level = GetLvlByExp();
+    level = ExpTable.GetLvlByExp(Points);
   }
 
   public int GetLvl()
