@@ -9,14 +9,17 @@ public class MentalSkills : ICascadeUpgrade, IEndCascadeUpgrade
   private const double COEFFICIENT = 2.0;
   private readonly Dictionary<SkillName, ISkill> skills = [];
   public Experience Exp { get; private init; }
+  public ICascadeUpgrade SkillsExp { get; private init; }
   public ICascadeUpgrade MentalAbilityExp { get; private init; }
 
   public MentalSkills(
-    Experience mentalSkillsExp,
-    Dictionary<AttributeName, ICascadeUpgrade> mentalAttributeExp,
-    ICascadeUpgrade mentalAbilityExp)
+    Experience exp,
+    ICascadeUpgrade skillsExp,
+    ICascadeUpgrade mentalAbilityExp,
+    Dictionary<AttributeName, ICascadeUpgrade> mentalAttributeExp)
   {
-    Exp = mentalSkillsExp;
+    Exp = exp;
+    SkillsExp = skillsExp;
     MentalAbilityExp = mentalAbilityExp;
 
     Experience skillExp = new(new ExpTable(COEFFICIENT));
@@ -45,6 +48,7 @@ public class MentalSkills : ICascadeUpgrade, IEndCascadeUpgrade
   public void CascadeUpgrade(int exp)
   {
     Exp.IncreasePoints(exp);
+    SkillsExp.CascadeUpgrade(exp);
     MentalAbilityExp.CascadeUpgrade(exp);
   }
 

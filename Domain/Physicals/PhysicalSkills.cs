@@ -10,14 +10,17 @@ public class PhysicalSkills : ICascadeUpgrade, IEndCascadeUpgrade
   private const double COEFFICIENT = 1.0;
   private readonly Dictionary<SkillName, ISkill> skills = [];
   public Experience Exp { get; private init; }
+  public ICascadeUpgrade SkillsExp { get; private init; }
   public ICascadeUpgrade PhysAbilityExp { get; private init; }
 
   public PhysicalSkills(
-    Experience physSkillsExp,
-    Dictionary<AttributeName, IGameAttribute> physAttributes,
-    ICascadeUpgrade physAbilityExp)
+    Experience exp,
+    ICascadeUpgrade skillsExp,
+    ICascadeUpgrade physAbilityExp,
+    Dictionary<AttributeName, IGameAttribute> physAttributes)
   {
-    Exp = physSkillsExp;
+    Exp = exp;
+    SkillsExp = skillsExp;
     PhysAbilityExp = physAbilityExp;
 
     Experience skillExp = new(new ExpTable(COEFFICIENT));
@@ -117,6 +120,7 @@ public class PhysicalSkills : ICascadeUpgrade, IEndCascadeUpgrade
   public void CascadeUpgrade(int exp)
   {
     Exp.IncreasePoints(exp);
+    SkillsExp.CascadeUpgrade(exp);
     PhysAbilityExp.CascadeUpgrade(exp);
   }
 
