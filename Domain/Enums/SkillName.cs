@@ -61,5 +61,7 @@ public enum SkillName
   // Creativity
 
   // Spirituals
-  Spirit
+  Spirit,
+  Focus,
+  WillPower
 }
