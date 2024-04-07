@@ -9,7 +9,7 @@ public class NenPrinciple(
   public Experience Exp { get; } = exp;
   public ICascadeUpgrade AbilityExp { get; } = abilityExp;
 
-  public void TriggerCascadeUpgrade(int exp)
+  public virtual void TriggerCascadeUpgrade(int exp)
   {
     Exp.IncreasePoints(exp);
     AbilityExp.CascadeUpgrade(exp);

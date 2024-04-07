@@ -12,7 +12,7 @@ public class PersonSkill(
   public IGameAttribute Attribute { get; } = attribute;
   public IEndCascadeUpgrade AbilitySkillsExp { get; } = abilitySkillsExp;
 
-  public void TriggerCascadeUpgrade(int exp)
+  public virtual void TriggerCascadeUpgrade(int exp)
   {
     Exp.IncreasePoints(exp);
     Attribute.CascadeUpgrade(exp);
