@@ -2,7 +2,6 @@ namespace HxH_RPG_Environment.Domain.Status;
 
 public interface IStatus
 {
-  public IGenerateStatus GenerateStatus { get; }
   public int Min { get; }
   public int Current { get; }
   public int Max { get; }
@@ -24,5 +23,5 @@ public interface IStatus
     return temp;
   }
 
-  public void UpgradeStatus();
+  public void StatusUpgrade(int level);
 }

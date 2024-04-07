@@ -2,8 +2,7 @@ using HxH_RPG_Environment.Domain.Experiences;
 
 namespace HxH_RPG_Environment.Domain.Status;
 
-public interface IGenerateStatus
+public interface IGenerateStatus : ITriggerCascadeExp
 {
-  public ICascadeUpgrade Status { get; }
-  public int GetLvl();
+  public IStatus Status { get; }
 }

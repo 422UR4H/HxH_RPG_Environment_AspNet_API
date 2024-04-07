@@ -2,29 +2,27 @@ namespace HxH_RPG_Environment.Domain.Status;
 
 public class HitPoints : IStatus
 {
-  public IGenerateStatus GenerateStatus { get; private init; }
   public int Min { get; private set; }
   public int Current { get; private set; }
   public int Max { get; private set; }
 
-  public HitPoints(IGenerateStatus generateStatus, int min = 0)
+  public HitPoints(int min = 0)
   {
-    GenerateStatus = generateStatus;
     Min = min;
 
-    int points = GenerateStatus.GetLvl();
+    int points = 0;
     Current = points;
     Max = points;
   }
 
-  public void UpgradeStatus()
+  public void StatusUpgrade(int level)
   {
     // TODO: Implement Min
     // Min = generateStatus.GetLvl();
 
     // TODO: Implement else case
-    if (Current == Max) Current = GenerateStatus.GetLvl();
+    if (Current == Max) Current = level;
 
-    Max = GenerateStatus.GetLvl();
+    Max = level;
   }
 }
