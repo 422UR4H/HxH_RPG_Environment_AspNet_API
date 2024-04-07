@@ -4,34 +4,30 @@ using HxH_RPG_Environment.Domain.Enums;
 
 namespace HxH_RPG_Environment.Domain.Mentals;
 
-public class MentalSkills : ICascadeUpgrade, IEndCascadeUpgrade
+public class MentalSkills(
+  Experience exp,
+  ICascadeUpgrade skillsExp,
+  ICascadeUpgrade mentalAbilityExp) : ICascadeUpgrade, IEndCascadeUpgrade
 {
-  private const double COEFFICIENT = 2.0;
-  private readonly Dictionary<SkillName, ISkill> skills = [];
-  public Experience Exp { get; private init; }
-  public ICascadeUpgrade SkillsExp { get; private init; }
-  public ICascadeUpgrade MentalAbilityExp { get; private init; }
+  public Dictionary<SkillName, ISkill> Skills { get; private set; } = [];
+  public Experience Exp { get; private init; } = exp;
+  public ICascadeUpgrade SkillsExp { get; private init; } = skillsExp;
+  public ICascadeUpgrade MentalAbilityExp { get; private init; } = mentalAbilityExp;
 
-  public MentalSkills(
-    Experience exp,
-    ICascadeUpgrade skillsExp,
-    ICascadeUpgrade mentalAbilityExp,
-    Dictionary<AttributeName, ICascadeUpgrade> mentalAttributeExp)
+  public void InitSkills(Dictionary<SkillName, ISkill> skills)
   {
-    Exp = exp;
-    SkillsExp = skillsExp;
-    MentalAbilityExp = mentalAbilityExp;
-
-    Experience skillExp = new(new ExpTable(COEFFICIENT));
-    // PersonSkill skill = new(skillExp, mentalAttributeExp, this);
-
-    // skills.Add(SkillName., skill.Clone());
+    if (skills.Count > 0)
+    {
+      Console.WriteLine("Skills already initialized!");
+      return;
+    }
+    Skills = skills;
   }
 
   // TODO: refactor this exception
   public ISkill Get(SkillName name)
   {
-    return skills.GetValueOrDefault(name) ??
+    return Skills.GetValueOrDefault(name) ??
       throw new Exception("Skill not found!");
   }
 

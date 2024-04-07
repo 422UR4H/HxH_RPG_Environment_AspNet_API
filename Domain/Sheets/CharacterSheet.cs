@@ -7,10 +7,7 @@ public class CharacterSheet(
   Profile profile,
   PersonAbilities abilities,
   StatusManager status
-  // CharacterClass characterClass,
-  // PhysicalAttributes physAttributes,
-  // MentalAttributes mentalAttributes,
-  // SpiritualPrinciples spiritualPrinciples
+  // CharacterClass characterClass
   )
 {
   public Profile Profile { get; } = profile;

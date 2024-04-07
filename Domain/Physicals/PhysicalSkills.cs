@@ -1,109 +1,33 @@
 using HxH_RPG_Environment.Domain.Experiences;
 using HxH_RPG_Environment.Domain.Skills;
 using HxH_RPG_Environment.Domain.Enums;
-using HxH_RPG_Environment.Domain.Attributes;
 
 namespace HxH_RPG_Environment.Domain.Physicals;
 
-public class PhysicalSkills : ICascadeUpgrade, IEndCascadeUpgrade
+public class PhysicalSkills(
+  Experience exp,
+  ICascadeUpgrade skillsExp,
+  ICascadeUpgrade physAbilityExp) : ICascadeUpgrade, IEndCascadeUpgrade
 {
-  private const double COEFFICIENT = 1.0;
-  private readonly Dictionary<SkillName, ISkill> skills = [];
-  public Experience Exp { get; private init; }
-  public ICascadeUpgrade SkillsExp { get; private init; }
-  public ICascadeUpgrade PhysAbilityExp { get; private init; }
+  public Dictionary<SkillName, ISkill> Skills { get; private set; } = [];
+  public Experience Exp { get; } = exp;
+  public ICascadeUpgrade SkillsExp { get; } = skillsExp;
+  public ICascadeUpgrade PhysAbilityExp { get; } = physAbilityExp;
 
-  public PhysicalSkills(
-    Experience exp,
-    ICascadeUpgrade skillsExp,
-    ICascadeUpgrade physAbilityExp,
-    Dictionary<AttributeName, IGameAttribute> physAttributes)
+  public void Init(Dictionary<SkillName, ISkill> skills)
   {
-    Exp = exp;
-    SkillsExp = skillsExp;
-    PhysAbilityExp = physAbilityExp;
-
-    Experience skillExp = new(new ExpTable(COEFFICIENT));
-
-    var con = physAttributes.GetValueOrDefault(AttributeName.Constitution) ??
-      throw new Exception("AttributeName not found!");
-
-    PersonSkill conSkill = new(skillExp.Clone(), con, this);
-    skills.Add(SkillName.Vitality, conSkill.Clone());
-    skills.Add(SkillName.Resistance, conSkill.Clone());
-    skills.Add(SkillName.Breath, conSkill.Clone());
-    skills.Add(SkillName.Heal, conSkill.Clone());
-
-    var def = physAttributes.GetValueOrDefault(AttributeName.Defense) ??
-      throw new Exception("AttributeName not found!");
-
-    PersonSkill defSkill = new(skillExp.Clone(), def, this);
-    skills.Add(SkillName.Defense, defSkill.Clone());
-
-    var str = physAttributes.GetValueOrDefault(AttributeName.Strength) ??
-      throw new Exception("AttributeName not found!");
-
-    PersonSkill strSkill = new(skillExp.Clone(), str, this);
-    skills.Add(SkillName.Climb, strSkill.Clone());
-    skills.Add(SkillName.Push, strSkill.Clone());
-    skills.Add(SkillName.Grab, strSkill.Clone());
-    skills.Add(SkillName.CarryCapacity, strSkill.Clone());
-
-    var vel = physAttributes.GetValueOrDefault(AttributeName.Velocity) ??
-      throw new Exception("AttributeName not found!");
-
-    PersonSkill velSkill = new(skillExp.Clone(), vel, this);
-    skills.Add(SkillName.Run, velSkill.Clone());
-    skills.Add(SkillName.Swim, velSkill.Clone());
-    skills.Add(SkillName.Jump, velSkill.Clone());
-
-    var agi = physAttributes.GetValueOrDefault(AttributeName.Agility) ??
-      throw new Exception("AttributeName not found!");
-
-    PersonSkill agiSkill = new(skillExp.Clone(), agi, this);
-    skills.Add(SkillName.Dodge, agiSkill.Clone());
-    skills.Add(SkillName.Accelerate, agiSkill.Clone());
-    skills.Add(SkillName.Brake, agiSkill.Clone());
-
-    var ats = physAttributes.GetValueOrDefault(AttributeName.ActionSpeed) ??
-      throw new Exception("AttributeName not found!");
-
-    PersonSkill atsSkill = new(skillExp.Clone(), ats, this);
-    skills.Add(SkillName.ActionSpeed, atsSkill.Clone());
-    skills.Add(SkillName.Feint, atsSkill.Clone());
-
-    var flx = physAttributes.GetValueOrDefault(AttributeName.Flexibility) ??
-      throw new Exception("AttributeName not found!");
-
-    PersonSkill flxSkill = new(skillExp.Clone(), flx, this);
-    skills.Add(SkillName.Acrobatics, flxSkill.Clone());
-    skills.Add(SkillName.Sneak, flxSkill.Clone());
-
-    var dex = physAttributes.GetValueOrDefault(AttributeName.Dexterity) ??
-      throw new Exception("AttributeName not found!");
-
-    PersonSkill dexSkill = new(skillExp.Clone(), dex, this);
-    skills.Add(SkillName.Reflex, dexSkill.Clone());
-    skills.Add(SkillName.Accuracy, dexSkill.Clone());
-    skills.Add(SkillName.Stealth, dexSkill.Clone());
-    skills.Add(SkillName.SleightOfHand, dexSkill.Clone());
-
-    var sen = physAttributes.GetValueOrDefault(AttributeName.Sense) ??
-      throw new Exception("AttributeName not found!");
-
-    PersonSkill senSkill = new(skillExp.Clone(), sen, this);
-    skills.Add(SkillName.Vision, senSkill.Clone());
-    skills.Add(SkillName.Hearing, senSkill.Clone());
-    skills.Add(SkillName.Smell, senSkill.Clone());
-    skills.Add(SkillName.Tact, senSkill.Clone());
-    skills.Add(SkillName.Taste, senSkill.Clone());
-    skills.Add(SkillName.Balance, senSkill.Clone());
+    if (skills.Count > 0)
+    {
+      Console.WriteLine("Skills already initialized!");
+      return;
+    }
+    Skills = skills;
   }
 
   // TODO: refactor this exception
   public ISkill Get(SkillName name)
   {
-    return skills.GetValueOrDefault(name) ??
+    return Skills.GetValueOrDefault(name) ??
       throw new Exception("Skill not found!");
   }
 

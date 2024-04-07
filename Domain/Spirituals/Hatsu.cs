@@ -4,32 +4,28 @@ using HxH_RPG_Environment.Domain.Experiences;
 namespace HxH_RPG_Environment.Domain.Spirituals;
 
 // TODO: add ISpecialSkill spiritualSpecialSkill
-public class Hatsu : IPrinciple, ICascadeUpgrade
+public class Hatsu(
+  Experience exp,
+  ICascadeUpgrade abilityExp) : IPrinciple, ICascadeUpgrade
 {
-  // TODO: calculate this coefficient
-  private const double COEFFICIENT = 1.0;
-  public Experience Exp { get; }
-  public ICascadeUpgrade AbilityExp { get; }
-  public readonly Dictionary<NenCategoryName, NenCategory> categories = [];
+  public Experience Exp { get; } = exp;
+  public ICascadeUpgrade AbilityExp { get; } = abilityExp;
+  public Dictionary<NenCategoryName, NenCategory> Categories { get; private set; } = [];
 
-  public Hatsu(Experience exp, ICascadeUpgrade abilityExp)
+  public void Init(Dictionary<NenCategoryName, NenCategory> categories)
   {
-    Exp = exp;
-    AbilityExp = abilityExp;
-
-    Experience skillExp = new(new ExpTable(COEFFICIENT));
-    NenCategory category = new(skillExp, this);
-
-    foreach (NenCategoryName name in Enum.GetValues(typeof(NenCategoryName)))
+    if (categories.Count > 0)
     {
-      categories.Add(name, category.Clone());
+      Console.WriteLine("Hatsu already initialized with categories!");
+      return;
     }
+    Categories = categories;
   }
 
   // TODO: refactor this exception
   public NenCategory Get(NenCategoryName name)
   {
-    return categories.GetValueOrDefault(name) ??
+    return Categories.GetValueOrDefault(name) ??
       throw new Exception("Nen Category not found!");
   }
 

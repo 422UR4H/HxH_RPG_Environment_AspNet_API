@@ -1,31 +1,15 @@
 using HxH_RPG_Environment.Domain.Enums;
-using HxH_RPG_Environment.Domain.Skills;
 
 namespace HxH_RPG_Environment.Domain.Status;
 
-public class StatusManager
+public class StatusManager(Dictionary<StatusName, IStatus> status)
 {
-  private IGenerateStatus Vitality { get; }
-  private IGenerateStatus Resistance { get; }
-  private IGenerateStatus Mop { get; }
-  private readonly Dictionary<StatusName, IStatus> status = [];
+  public Dictionary<StatusName, IStatus> Status { get; } = status;
 
-  public StatusManager(
-    IGenerateStatus vitality,
-    IGenerateStatus resistance,
-    IGenerateStatus mop)
+  // TODO: refactor this exception
+  public IStatus Get(StatusName name)
   {
-    Vitality = vitality;
-    Resistance = resistance;
-    Mop = mop;
-
-    HitPoints health = new(Vitality);
-    status.Add(StatusName.Health, health);
-
-    StaminaPoints stamina = new(Resistance);
-    status.Add(StatusName.Stamina, stamina);
-
-    AuraPoints aura = new(Mop);
-    status.Add(StatusName.Aura, aura);
+    return Status.GetValueOrDefault(name)
+      ?? throw new Exception("Status not found!");
   }
 }

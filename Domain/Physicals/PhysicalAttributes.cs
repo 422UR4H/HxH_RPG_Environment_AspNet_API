@@ -1,46 +1,16 @@
-using HxH_RPG_Environment.Domain.Experiences;
 using HxH_RPG_Environment.Domain.Attributes;
 using HxH_RPG_Environment.Domain.Enums;
 
 namespace HxH_RPG_Environment.Domain.Physicals;
 
-public class PhysicalAttributes
+public class PhysicalAttributes(Dictionary<AttributeName, IGameAttribute> attributes)
 {
-  private const double COEFFICIENT = 5.0;
-  private readonly Dictionary<AttributeName, IGameAttribute> attributes = [];
-
-  public PhysicalAttributes(ICascadeUpgrade physAbilityExp)
-  {
-    Experience exp = new(new ExpTable(COEFFICIENT));
-    PrimaryAttribute primaryAttribute = new(exp, physAbilityExp);
-
-    PrimaryAttribute constitution = primaryAttribute.Clone();
-    PrimaryAttribute strength = primaryAttribute.Clone();
-    MiddleAttribute defense = new(exp.Clone(), [constitution, strength]);
-    attributes.Add(AttributeName.Constitution, constitution);
-    attributes.Add(AttributeName.Strength, strength);
-    attributes.Add(AttributeName.Defense, defense);
-
-    PrimaryAttribute agility = primaryAttribute.Clone();
-    MiddleAttribute velocity = new(exp.Clone(), [strength, agility]);
-    attributes.Add(AttributeName.Agility, agility);
-    attributes.Add(AttributeName.Velocity, velocity);
-
-    PrimaryAttribute flexibility = primaryAttribute.Clone();
-    MiddleAttribute actionSpeed = new(exp.Clone(), [agility, flexibility]);
-    attributes.Add(AttributeName.Flexibility, flexibility);
-    attributes.Add(AttributeName.ActionSpeed, actionSpeed);
-
-    PrimaryAttribute sense = primaryAttribute.Clone();
-    MiddleAttribute dexterity = new(exp.Clone(), [flexibility, sense]);
-    attributes.Add(AttributeName.Sense, sense);
-    attributes.Add(AttributeName.Dexterity, dexterity);
-  }
+  public Dictionary<AttributeName, IGameAttribute> Attributes { get; } = attributes;
 
   // TODO: refactor this exception
   public IGameAttribute Get(AttributeName name)
   {
-    return attributes.GetValueOrDefault(name) ??
+    return Attributes.GetValueOrDefault(name) ??
       throw new Exception("Attribute not found!");
   }
 
