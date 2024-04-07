@@ -16,23 +16,23 @@ public class PhysicalAttributes
 
     PrimaryAttribute constitution = primaryAttribute.Clone();
     PrimaryAttribute strength = primaryAttribute.Clone();
-    MiddleAttribute defense = new(exp.Clone(), physAbilityExp, [constitution, strength]);
+    MiddleAttribute defense = new(exp.Clone(), [constitution, strength]);
     attributes.Add(AttributeName.Constitution, constitution);
     attributes.Add(AttributeName.Strength, strength);
     attributes.Add(AttributeName.Defense, defense);
 
     PrimaryAttribute agility = primaryAttribute.Clone();
-    MiddleAttribute velocity = new(exp.Clone(), physAbilityExp, [strength, agility]);
+    MiddleAttribute velocity = new(exp.Clone(), [strength, agility]);
     attributes.Add(AttributeName.Agility, agility);
     attributes.Add(AttributeName.Velocity, velocity);
 
     PrimaryAttribute flexibility = primaryAttribute.Clone();
-    MiddleAttribute actionSpeed = new(exp.Clone(), physAbilityExp, [agility, flexibility]);
+    MiddleAttribute actionSpeed = new(exp.Clone(), [agility, flexibility]);
     attributes.Add(AttributeName.Flexibility, flexibility);
     attributes.Add(AttributeName.ActionSpeed, actionSpeed);
 
     PrimaryAttribute sense = primaryAttribute.Clone();
-    MiddleAttribute dexterity = new(exp.Clone(), physAbilityExp, [flexibility, sense]);
+    MiddleAttribute dexterity = new(exp.Clone(), [flexibility, sense]);
     attributes.Add(AttributeName.Sense, sense);
     attributes.Add(AttributeName.Dexterity, dexterity);
   }
