@@ -35,6 +35,8 @@ public class CharacterSheetFactory()
     Ability mentalAbility = abilities.Get(AbilityName.MENTALS);
     AttributesManager mentalAttrs = BuildMentalAttrs(mentalAbility);
 
+    CharacterAttributes characterAttrs = new(physAttrs, mentalAttrs);
+
     StatusManager status = BuildStatusManager();
 
     Ability skills = abilities.Get(AbilityName.SKILLS);
@@ -44,6 +46,7 @@ public class CharacterSheetFactory()
     SkillsManager mentalSkills = BuildMentalSkills(
       skills, mentalAbility, mentalAttrs.Attributes
     );
+    CharacterSkills characterSkills = new(physSkills, mentalSkills);
 
     Ability spiritAbility = abilities.Get(AbilityName.SPIRITUALS);
     Hatsu hatsu = BuildHatsu(spiritAbility);
@@ -51,7 +54,14 @@ public class CharacterSheetFactory()
       status.Get(StatusName.Aura), spiritAbility, hatsu
     );
 
-    return new CharacterSheet(profile, abilities, status);
+    return new CharacterSheet(
+      profile,
+      abilities,
+      characterAttrs,
+      spiritPrinciples,
+      characterSkills,
+      status
+    );
   }
 
   public AbilitiesManager BuildPersonAbilities(IEndCascadeUpgrade characterExp)
