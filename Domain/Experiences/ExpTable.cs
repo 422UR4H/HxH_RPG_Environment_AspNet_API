@@ -18,7 +18,7 @@ public class ExpTable
     BaseTable.Add(0);
     AggregateTable.Add(0);
 
-    for (int i = 1; i < MAX_LVL; i++)
+    for (int i = 1; i <= MAX_LVL; i++)
     {
       int currExp = (int)(coefficient * (
           (1700.0 / (1.0 + Math.Pow(Math.E, A_PARAM / 10.0 * (12.0 - i)))) +
@@ -43,5 +43,18 @@ public class ExpTable
   public int GetLvlByExp(int exp)
   {
     return AggregateTable.LastIndexOf(AggregateTable.Last(x => x <= exp));
+  }
+
+  public override string ToString()
+  {
+    string expTable = "=============================\n";
+    expTable += "Coef: " + Coefficient + "\n";
+    expTable += "Lvl\t| Base\t| Total\n";
+    for (int i = 0; i <= MAX_LVL; i++)
+    {
+      expTable += " " + i + "\t| " + BaseTable[i] + "\t| " + AggregateTable[i] + "\n";
+    }
+    expTable += "=============================\n";
+    return expTable;
   }
 }

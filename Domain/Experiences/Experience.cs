@@ -58,6 +58,11 @@ public class Experience
     return diff;
   }
 
+  public string GetExpTable()
+  {
+    return ExpTable.ToString();
+  }
+
   public Experience Clone()
   {
     return new Experience(ExpTable, Points);
