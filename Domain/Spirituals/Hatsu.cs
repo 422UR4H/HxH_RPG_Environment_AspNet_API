@@ -14,7 +14,7 @@ public class Hatsu(
 
   public void Init(Dictionary<NenCategoryName, NenCategory> categories)
   {
-    if (categories.Count > 0)
+    if (Categories.Count > 0)
     {
       Console.WriteLine("Hatsu already initialized with categories!");
       return;

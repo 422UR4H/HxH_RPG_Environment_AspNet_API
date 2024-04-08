@@ -15,8 +15,9 @@ public class SkillsManager(
 
   public void Init(Dictionary<SkillName, ISkill> skills)
   {
-    if (skills.Count > 0)
+    if (Skills.Count > 0)
     {
+
       Console.WriteLine("Skills already initialized!");
       return;
     }
