@@ -6,7 +6,7 @@ public interface IAbility : ICascadeUpgrade
 {
   public IEndCascadeUpgrade CharacterExp { get; }
 
-  public int GetHalfLvl()
+  public double GetHalfLvl()
   {
     return Exp.GetLvl() / 2;
   }

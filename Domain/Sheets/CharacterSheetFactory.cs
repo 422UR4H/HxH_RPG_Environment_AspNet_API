@@ -78,7 +78,7 @@ public class CharacterSheetFactory()
     return new AbilitiesManager(abilities, talent);
   }
 
-  public AttributesManager BuildPhysAttrs(ICascadeUpgrade physAbilityExp)
+  public AttributesManager BuildPhysAttrs(IAbility physAbilityExp)
   {
     Dictionary<AttributeName, IGameAttribute> attributes = [];
 
@@ -110,7 +110,7 @@ public class CharacterSheetFactory()
     return new AttributesManager(attributes);
   }
 
-  public AttributesManager BuildMentalAttrs(ICascadeUpgrade mentalAbilityExp)
+  public AttributesManager BuildMentalAttrs(IAbility mentalAbilityExp)
   {
     Dictionary<AttributeName, IGameAttribute> attributes = [];
 
@@ -145,33 +145,33 @@ public class CharacterSheetFactory()
     Dictionary<SkillName, ISkill> skills = [];
 
     Experience exp = new(new ExpTable(PHYSICAL_SKILLS_COEFFICIENT));
-    SkillsManager SkillsManager = new(exp, skillsExp, physAbilityExp);
+    SkillsManager physSkills = new(exp, skillsExp, physAbilityExp);
 
     var con = physAttrs.GetValueOrDefault(AttributeName.Constitution) ??
       throw new Exception("Attribute not found!");
 
     IStatus health = status.Get(StatusName.Health);
-    StatusSkill vitSkill = new(health, exp.Clone(), con, SkillsManager);
+    StatusSkill vitSkill = new(health, exp.Clone(), con, physSkills);
     skills.Add(SkillName.Vitality, vitSkill);
 
     IStatus stamina = status.Get(StatusName.Stamina);
-    StatusSkill resSkill = new(stamina, exp.Clone(), con, SkillsManager);
+    StatusSkill resSkill = new(stamina, exp.Clone(), con, physSkills);
     skills.Add(SkillName.Resistance, resSkill);
 
-    PersonSkill conSkill = new(exp.Clone(), con, SkillsManager);
+    PersonSkill conSkill = new(exp.Clone(), con, physSkills);
     skills.Add(SkillName.Breath, conSkill.Clone());
     skills.Add(SkillName.Heal, conSkill.Clone());
 
     var def = physAttrs.GetValueOrDefault(AttributeName.Defense) ??
       throw new Exception("Attribute not found!");
 
-    PersonSkill defSkill = new(exp.Clone(), def, SkillsManager);
+    PersonSkill defSkill = new(exp.Clone(), def, physSkills);
     skills.Add(SkillName.Defense, defSkill.Clone());
 
     var str = physAttrs.GetValueOrDefault(AttributeName.Strength) ??
       throw new Exception("Attribute not found!");
 
-    PersonSkill strSkill = new(exp.Clone(), str, SkillsManager);
+    PersonSkill strSkill = new(exp.Clone(), str, physSkills);
     skills.Add(SkillName.Climb, strSkill.Clone());
     skills.Add(SkillName.Push, strSkill.Clone());
     skills.Add(SkillName.Grab, strSkill.Clone());
@@ -180,7 +180,7 @@ public class CharacterSheetFactory()
     var vel = physAttrs.GetValueOrDefault(AttributeName.Velocity) ??
       throw new Exception("Attribute not found!");
 
-    PersonSkill velSkill = new(exp.Clone(), vel, SkillsManager);
+    PersonSkill velSkill = new(exp.Clone(), vel, physSkills);
     skills.Add(SkillName.Run, velSkill.Clone());
     skills.Add(SkillName.Swim, velSkill.Clone());
     skills.Add(SkillName.Jump, velSkill.Clone());
@@ -188,7 +188,7 @@ public class CharacterSheetFactory()
     var agi = physAttrs.GetValueOrDefault(AttributeName.Agility) ??
       throw new Exception("Attribute not found!");
 
-    PersonSkill agiSkill = new(exp.Clone(), agi, SkillsManager);
+    PersonSkill agiSkill = new(exp.Clone(), agi, physSkills);
     skills.Add(SkillName.Dodge, agiSkill.Clone());
     skills.Add(SkillName.Accelerate, agiSkill.Clone());
     skills.Add(SkillName.Brake, agiSkill.Clone());
@@ -196,21 +196,21 @@ public class CharacterSheetFactory()
     var ats = physAttrs.GetValueOrDefault(AttributeName.ActionSpeed) ??
       throw new Exception("Attribute not found!");
 
-    PersonSkill atsSkill = new(exp.Clone(), ats, SkillsManager);
+    PersonSkill atsSkill = new(exp.Clone(), ats, physSkills);
     skills.Add(SkillName.ActionSpeed, atsSkill.Clone());
     skills.Add(SkillName.Feint, atsSkill.Clone());
 
     var flx = physAttrs.GetValueOrDefault(AttributeName.Flexibility) ??
       throw new Exception("Attribute not found!");
 
-    PersonSkill flxSkill = new(exp.Clone(), flx, SkillsManager);
+    PersonSkill flxSkill = new(exp.Clone(), flx, physSkills);
     skills.Add(SkillName.Acrobatics, flxSkill.Clone());
     skills.Add(SkillName.Sneak, flxSkill.Clone());
 
     var dex = physAttrs.GetValueOrDefault(AttributeName.Dexterity) ??
       throw new Exception("Attribute not found!");
 
-    PersonSkill dexSkill = new(exp.Clone(), dex, SkillsManager);
+    PersonSkill dexSkill = new(exp.Clone(), dex, physSkills);
     skills.Add(SkillName.Reflex, dexSkill.Clone());
     skills.Add(SkillName.Accuracy, dexSkill.Clone());
     skills.Add(SkillName.Stealth, dexSkill.Clone());
@@ -219,7 +219,7 @@ public class CharacterSheetFactory()
     var sen = physAttrs.GetValueOrDefault(AttributeName.Sense) ??
       throw new Exception("Attribute not found!");
 
-    PersonSkill senSkill = new(exp.Clone(), sen, SkillsManager);
+    PersonSkill senSkill = new(exp.Clone(), sen, physSkills);
     skills.Add(SkillName.Vision, senSkill.Clone());
     skills.Add(SkillName.Hearing, senSkill.Clone());
     skills.Add(SkillName.Smell, senSkill.Clone());
@@ -227,8 +227,8 @@ public class CharacterSheetFactory()
     skills.Add(SkillName.Taste, senSkill.Clone());
     skills.Add(SkillName.Balance, senSkill.Clone());
 
-    SkillsManager.Init(skills);
-    return SkillsManager;
+    physSkills.Init(skills);
+    return physSkills;
   }
 
   public SkillsManager BuildMentalSkills(
