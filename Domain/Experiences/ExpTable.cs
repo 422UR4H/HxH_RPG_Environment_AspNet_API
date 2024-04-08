@@ -8,8 +8,8 @@ public class ExpTable
 
   public double Coefficient { get; }
 
-  private static List<int> BaseTable { get; } = [MAX_LVL];
-  private static List<int> AggregateTable { get; } = [MAX_LVL];
+  private List<int> BaseTable { get; } = [];
+  private List<int> AggregateTable { get; } = [];
 
   public ExpTable(double coefficient = 1.0)
   {
