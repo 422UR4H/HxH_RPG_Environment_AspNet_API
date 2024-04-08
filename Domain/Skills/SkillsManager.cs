@@ -1,18 +1,17 @@
-using HxH_RPG_Environment.Domain.Experiences;
-using HxH_RPG_Environment.Domain.Skills;
 using HxH_RPG_Environment.Domain.Enums;
+using HxH_RPG_Environment.Domain.Experiences;
 
-namespace HxH_RPG_Environment.Domain.Physicals;
+namespace HxH_RPG_Environment.Domain.Skills;
 
-public class PhysicalSkills(
+public class SkillsManager(
   Experience exp,
   ICascadeUpgrade skillsExp,
-  ICascadeUpgrade physAbilityExp) : ICascadeUpgrade, IEndCascadeUpgrade
+  ICascadeUpgrade abilityExp) : ICascadeUpgrade, IEndCascadeUpgrade
 {
   public Dictionary<SkillName, ISkill> Skills { get; private set; } = [];
   public Experience Exp { get; } = exp;
   public ICascadeUpgrade SkillsExp { get; } = skillsExp;
-  public ICascadeUpgrade PhysAbilityExp { get; } = physAbilityExp;
+  public ICascadeUpgrade AbilityExp { get; } = abilityExp;
 
   public void Init(Dictionary<SkillName, ISkill> skills)
   {
@@ -45,7 +44,7 @@ public class PhysicalSkills(
   {
     Exp.IncreasePoints(exp);
     SkillsExp.CascadeUpgrade(exp);
-    PhysAbilityExp.CascadeUpgrade(exp);
+    AbilityExp.CascadeUpgrade(exp);
   }
 
   public void TriggerEndUpgrade(int exp)

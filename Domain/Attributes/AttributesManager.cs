@@ -1,9 +1,8 @@
-using HxH_RPG_Environment.Domain.Attributes;
 using HxH_RPG_Environment.Domain.Enums;
 
-namespace HxH_RPG_Environment.Domain.Physicals;
+namespace HxH_RPG_Environment.Domain.Attributes;
 
-public class PhysicalAttributes(Dictionary<AttributeName, IGameAttribute> attributes)
+public class AttributesManager(Dictionary<AttributeName, IGameAttribute> attributes)
 {
   public Dictionary<AttributeName, IGameAttribute> Attributes { get; } = attributes;
 

@@ -5,12 +5,12 @@ namespace HxH_RPG_Environment.Domain.Sheets;
 
 public class CharacterSheet(
   Profile profile,
-  PersonAbilities abilities,
+  AbilitiesManager abilities,
   StatusManager status
   // CharacterClass characterClass
   )
 {
   public Profile Profile { get; } = profile;
-  public PersonAbilities Abilities { get; } = abilities;
+  public AbilitiesManager Abilities { get; } = abilities;
   public StatusManager Status { get; } = status;
 }

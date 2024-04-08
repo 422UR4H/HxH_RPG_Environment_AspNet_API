@@ -2,7 +2,7 @@ using HxH_RPG_Environment.Domain.Enums;
 
 namespace HxH_RPG_Environment.Domain.Spirituals;
 
-public class SpiritualPrinciples(
+public class PrinciplesManager(
   Dictionary<NenPrincipleName, NenPrinciple> principles,
   Hatsu hatsu)
 {

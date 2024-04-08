@@ -2,17 +2,17 @@ using HxH_RPG_Environment.Domain.Enums;
 
 namespace HxH_RPG_Environment.Domain.Abilities;
 
-public class PersonAbilities(
+public class AbilitiesManager(
   Dictionary<AbilityName, Ability> abilities,
   Talent talent)
 {
-  private readonly Dictionary<AbilityName, Ability> _abilities = abilities;
+  public Dictionary<AbilityName, Ability> Abilities { get; } = abilities;
   public Talent Talent { get; } = talent;
 
   // TODO: refactor this exception
   public Ability Get(AbilityName name)
   {
-    return _abilities.GetValueOrDefault(name) ??
+    return Abilities.GetValueOrDefault(name) ??
       throw new Exception("Ability not found!");
   }
 }

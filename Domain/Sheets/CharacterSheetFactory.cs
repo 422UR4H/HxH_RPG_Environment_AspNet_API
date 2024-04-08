@@ -2,8 +2,6 @@ using HxH_RPG_Environment.Domain.Abilities;
 using HxH_RPG_Environment.Domain.Attributes;
 using HxH_RPG_Environment.Domain.Enums;
 using HxH_RPG_Environment.Domain.Experiences;
-using HxH_RPG_Environment.Domain.Mentals;
-using HxH_RPG_Environment.Domain.Physicals;
 using HxH_RPG_Environment.Domain.Skills;
 using HxH_RPG_Environment.Domain.Spirituals;
 using HxH_RPG_Environment.Domain.Status;
@@ -29,34 +27,34 @@ public class CharacterSheetFactory()
     Experience exp = new(new ExpTable(CHARACTER_COEFFICIENT));
     CharacterExp characterExp = new(exp);
 
-    PersonAbilities abilities = BuildPersonAbilities(characterExp);
+    AbilitiesManager abilities = BuildPersonAbilities(characterExp);
 
     Ability physAbility = abilities.Get(AbilityName.PHYSICALS);
-    PhysicalAttributes physAttrs = BuildPhysAttrs(physAbility);
+    AttributesManager physAttrs = BuildPhysAttrs(physAbility);
 
     Ability mentalAbility = abilities.Get(AbilityName.MENTALS);
-    MentalAttributes mentalAttrs = BuildMentalAttrs(mentalAbility);
+    AttributesManager mentalAttrs = BuildMentalAttrs(mentalAbility);
 
     StatusManager status = BuildStatusManager();
 
     Ability skills = abilities.Get(AbilityName.SKILLS);
-    PhysicalSkills physSkills = BuildPhysSkills(
+    SkillsManager physSkills = BuildPhysSkills(
       status, skills, physAbility, physAttrs.Attributes
     );
-    MentalSkills mentalSkills = BuildMentalSkills(
+    SkillsManager mentalSkills = BuildMentalSkills(
       skills, mentalAbility, mentalAttrs.Attributes
     );
 
     Ability spiritAbility = abilities.Get(AbilityName.SPIRITUALS);
     Hatsu hatsu = BuildHatsu(spiritAbility);
-    SpiritualPrinciples spiritPrinciples = BuildSpiritPrinciples(
+    PrinciplesManager spiritPrinciples = BuildSpiritPrinciples(
       status.Get(StatusName.Aura), spiritAbility, hatsu
     );
 
     return new CharacterSheet(profile, abilities, status);
   }
 
-  public PersonAbilities BuildPersonAbilities(IEndCascadeUpgrade characterExp)
+  public AbilitiesManager BuildPersonAbilities(IEndCascadeUpgrade characterExp)
   {
     Dictionary<AbilityName, Ability> abilities = [];
 
@@ -77,10 +75,10 @@ public class CharacterSheetFactory()
 
     // TODO: knowlegde exp
 
-    return new PersonAbilities(abilities, talent);
+    return new AbilitiesManager(abilities, talent);
   }
 
-  public PhysicalAttributes BuildPhysAttrs(ICascadeUpgrade physAbilityExp)
+  public AttributesManager BuildPhysAttrs(ICascadeUpgrade physAbilityExp)
   {
     Dictionary<AttributeName, IGameAttribute> attributes = [];
 
@@ -109,10 +107,10 @@ public class CharacterSheetFactory()
     attributes.Add(AttributeName.Sense, sense);
     attributes.Add(AttributeName.Dexterity, dexterity);
 
-    return new PhysicalAttributes(attributes);
+    return new AttributesManager(attributes);
   }
 
-  public MentalAttributes BuildMentalAttrs(ICascadeUpgrade mentalAbilityExp)
+  public AttributesManager BuildMentalAttrs(ICascadeUpgrade mentalAbilityExp)
   {
     Dictionary<AttributeName, IGameAttribute> attributes = [];
 
@@ -124,7 +122,7 @@ public class CharacterSheetFactory()
     attributes.Add(AttributeName.Weighting, attribute.Clone());
     attributes.Add(AttributeName.Creativity, attribute.Clone());
 
-    return new MentalAttributes(attributes);
+    return new AttributesManager(attributes);
   }
 
   public StatusManager BuildStatusManager()
@@ -138,7 +136,7 @@ public class CharacterSheetFactory()
     return new StatusManager(status);
   }
 
-  public PhysicalSkills BuildPhysSkills(
+  public SkillsManager BuildPhysSkills(
     StatusManager status,
     ICascadeUpgrade skillsExp,
     ICascadeUpgrade physAbilityExp,
@@ -147,33 +145,33 @@ public class CharacterSheetFactory()
     Dictionary<SkillName, ISkill> skills = [];
 
     Experience exp = new(new ExpTable(PHYSICAL_SKILLS_COEFFICIENT));
-    PhysicalSkills physicalSkills = new(exp, skillsExp, physAbilityExp);
+    SkillsManager SkillsManager = new(exp, skillsExp, physAbilityExp);
 
     var con = physAttrs.GetValueOrDefault(AttributeName.Constitution) ??
       throw new Exception("Attribute not found!");
 
     IStatus health = status.Get(StatusName.Health);
-    StatusSkill vitSkill = new(health, exp.Clone(), con, physicalSkills);
+    StatusSkill vitSkill = new(health, exp.Clone(), con, SkillsManager);
     skills.Add(SkillName.Vitality, vitSkill);
 
     IStatus stamina = status.Get(StatusName.Stamina);
-    StatusSkill resSkill = new(stamina, exp.Clone(), con, physicalSkills);
+    StatusSkill resSkill = new(stamina, exp.Clone(), con, SkillsManager);
     skills.Add(SkillName.Resistance, resSkill);
 
-    PersonSkill conSkill = new(exp.Clone(), con, physicalSkills);
+    PersonSkill conSkill = new(exp.Clone(), con, SkillsManager);
     skills.Add(SkillName.Breath, conSkill.Clone());
     skills.Add(SkillName.Heal, conSkill.Clone());
 
     var def = physAttrs.GetValueOrDefault(AttributeName.Defense) ??
       throw new Exception("Attribute not found!");
 
-    PersonSkill defSkill = new(exp.Clone(), def, physicalSkills);
+    PersonSkill defSkill = new(exp.Clone(), def, SkillsManager);
     skills.Add(SkillName.Defense, defSkill.Clone());
 
     var str = physAttrs.GetValueOrDefault(AttributeName.Strength) ??
       throw new Exception("Attribute not found!");
 
-    PersonSkill strSkill = new(exp.Clone(), str, physicalSkills);
+    PersonSkill strSkill = new(exp.Clone(), str, SkillsManager);
     skills.Add(SkillName.Climb, strSkill.Clone());
     skills.Add(SkillName.Push, strSkill.Clone());
     skills.Add(SkillName.Grab, strSkill.Clone());
@@ -182,7 +180,7 @@ public class CharacterSheetFactory()
     var vel = physAttrs.GetValueOrDefault(AttributeName.Velocity) ??
       throw new Exception("Attribute not found!");
 
-    PersonSkill velSkill = new(exp.Clone(), vel, physicalSkills);
+    PersonSkill velSkill = new(exp.Clone(), vel, SkillsManager);
     skills.Add(SkillName.Run, velSkill.Clone());
     skills.Add(SkillName.Swim, velSkill.Clone());
     skills.Add(SkillName.Jump, velSkill.Clone());
@@ -190,7 +188,7 @@ public class CharacterSheetFactory()
     var agi = physAttrs.GetValueOrDefault(AttributeName.Agility) ??
       throw new Exception("Attribute not found!");
 
-    PersonSkill agiSkill = new(exp.Clone(), agi, physicalSkills);
+    PersonSkill agiSkill = new(exp.Clone(), agi, SkillsManager);
     skills.Add(SkillName.Dodge, agiSkill.Clone());
     skills.Add(SkillName.Accelerate, agiSkill.Clone());
     skills.Add(SkillName.Brake, agiSkill.Clone());
@@ -198,21 +196,21 @@ public class CharacterSheetFactory()
     var ats = physAttrs.GetValueOrDefault(AttributeName.ActionSpeed) ??
       throw new Exception("Attribute not found!");
 
-    PersonSkill atsSkill = new(exp.Clone(), ats, physicalSkills);
+    PersonSkill atsSkill = new(exp.Clone(), ats, SkillsManager);
     skills.Add(SkillName.ActionSpeed, atsSkill.Clone());
     skills.Add(SkillName.Feint, atsSkill.Clone());
 
     var flx = physAttrs.GetValueOrDefault(AttributeName.Flexibility) ??
       throw new Exception("Attribute not found!");
 
-    PersonSkill flxSkill = new(exp.Clone(), flx, physicalSkills);
+    PersonSkill flxSkill = new(exp.Clone(), flx, SkillsManager);
     skills.Add(SkillName.Acrobatics, flxSkill.Clone());
     skills.Add(SkillName.Sneak, flxSkill.Clone());
 
     var dex = physAttrs.GetValueOrDefault(AttributeName.Dexterity) ??
       throw new Exception("Attribute not found!");
 
-    PersonSkill dexSkill = new(exp.Clone(), dex, physicalSkills);
+    PersonSkill dexSkill = new(exp.Clone(), dex, SkillsManager);
     skills.Add(SkillName.Reflex, dexSkill.Clone());
     skills.Add(SkillName.Accuracy, dexSkill.Clone());
     skills.Add(SkillName.Stealth, dexSkill.Clone());
@@ -221,7 +219,7 @@ public class CharacterSheetFactory()
     var sen = physAttrs.GetValueOrDefault(AttributeName.Sense) ??
       throw new Exception("Attribute not found!");
 
-    PersonSkill senSkill = new(exp.Clone(), sen, physicalSkills);
+    PersonSkill senSkill = new(exp.Clone(), sen, SkillsManager);
     skills.Add(SkillName.Vision, senSkill.Clone());
     skills.Add(SkillName.Hearing, senSkill.Clone());
     skills.Add(SkillName.Smell, senSkill.Clone());
@@ -229,11 +227,11 @@ public class CharacterSheetFactory()
     skills.Add(SkillName.Taste, senSkill.Clone());
     skills.Add(SkillName.Balance, senSkill.Clone());
 
-    physicalSkills.Init(skills);
-    return physicalSkills;
+    SkillsManager.Init(skills);
+    return SkillsManager;
   }
 
-  public MentalSkills BuildMentalSkills(
+  public SkillsManager BuildMentalSkills(
     ICascadeUpgrade skillsExp,
     ICascadeUpgrade mentalAbilityExp,
     Dictionary<AttributeName, IGameAttribute> mentalsAttrs)
@@ -241,7 +239,7 @@ public class CharacterSheetFactory()
     Dictionary<SkillName, ISkill> skills = [];
 
     Experience exp = new(new ExpTable(MENTAL_SKILLS_COEFFICIENT));
-    MentalSkills mentalSkills = new(exp, skillsExp, mentalAbilityExp);
+    SkillsManager mentalSkills = new(exp, skillsExp, mentalAbilityExp);
 
     // TODO: resolve and finish this
     // var res = mentalsAttrs.GetValueOrDefault(AttributeName.Resilience) ??
@@ -270,7 +268,7 @@ public class CharacterSheetFactory()
     return hatsu;
   }
 
-  public SpiritualPrinciples BuildSpiritPrinciples(
+  public PrinciplesManager BuildSpiritPrinciples(
     IStatus aura,
     ICascadeUpgrade spiritAbilityExp,
     Hatsu hatsu)
@@ -291,6 +289,6 @@ public class CharacterSheetFactory()
       }
       principles.Add(name, principle.Clone());
     }
-    return new SpiritualPrinciples(principles, hatsu);
+    return new PrinciplesManager(principles, hatsu);
   }
 }
