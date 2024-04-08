@@ -28,4 +28,9 @@ public class CharacterSheet(
   {
     return Skills.GetValueForTestOf(name);
   }
+
+  public int GetValueForTestOf(AttributeName name)
+  {
+    return Attributes.GetPowerOf(name);
+  }
 }

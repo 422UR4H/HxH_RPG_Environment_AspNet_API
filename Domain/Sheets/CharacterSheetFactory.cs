@@ -18,8 +18,10 @@ public class CharacterSheetFactory()
   private const double SKILLS_COEFFICIENT = 5.0;
   private const double PHYSICAL_ATTRIBUTE_COEFFICIENT = 5.0;
   private const double MENTAL_ATTRIBUTE_COEFFICIENT = 3.0;
+  private const double SPIRITUAL_ATTRIBUTE_COEFFICIENT = 1.0;
   private const double PHYSICAL_SKILLS_COEFFICIENT = 1.0;
   private const double MENTAL_SKILLS_COEFFICIENT = 2.0;
+  private const double SPIRITUAL_SKILLS_COEFFICIENT = 3.0;
   private const double SPIRITUAL_PRINCIPLE_COEFFICIENT = 1.0;
 
   public CharacterSheet Build(Profile profile)
@@ -35,7 +37,10 @@ public class CharacterSheetFactory()
     Ability mentalAbility = abilities.Get(AbilityName.MENTALS);
     AttributesManager mentalAttrs = BuildMentalAttrs(mentalAbility);
 
-    CharacterAttributes characterAttrs = new(physAttrs, mentalAttrs);
+    Ability spiritualAbility = abilities.Get(AbilityName.SPIRITUALS);
+    AttributesManager spiritAttrs = BuildSpiritualAttrs(spiritualAbility);
+
+    CharacterAttributes characterAttrs = new(physAttrs, mentalAttrs, spiritAttrs);
 
     StatusManager status = BuildStatusManager();
 
@@ -46,7 +51,10 @@ public class CharacterSheetFactory()
     SkillsManager mentalSkills = BuildMentalSkills(
       skills, mentalAbility, mentalAttrs.Attributes
     );
-    CharacterSkills characterSkills = new(physSkills, mentalSkills);
+    SkillsManager spiritSkills = BuildSpiritualSkills(
+      skills, spiritualAbility, spiritAttrs.Attributes
+    );
+    CharacterSkills characterSkills = new(physSkills, mentalSkills, spiritSkills);
 
     Ability spiritAbility = abilities.Get(AbilityName.SPIRITUALS);
     Hatsu hatsu = BuildHatsu(spiritAbility);
@@ -131,6 +139,18 @@ public class CharacterSheetFactory()
     attributes.Add(AttributeName.Adaptability, attribute.Clone());
     attributes.Add(AttributeName.Weighting, attribute.Clone());
     attributes.Add(AttributeName.Creativity, attribute.Clone());
+
+    return new AttributesManager(attributes);
+  }
+
+  public AttributesManager BuildSpiritualAttrs(IAbility spiritualAbilityExp)
+  {
+    Dictionary<AttributeName, IGameAttribute> attributes = [];
+
+    Experience exp = new(new ExpTable(SPIRITUAL_ATTRIBUTE_COEFFICIENT));
+    PrimaryAttribute attribute = new(exp, spiritualAbilityExp);
+
+    attributes.Add(AttributeName.Spirit, attribute);
 
     return new AttributesManager(attributes);
   }
@@ -259,6 +279,28 @@ public class CharacterSheetFactory()
     // skills.Add(SkillName., skill.Clone());
 
     return mentalSkills;
+  }
+
+  public SkillsManager BuildSpiritualSkills(
+    ICascadeUpgrade skillsExp,
+    ICascadeUpgrade spiritualAbilityExp,
+    Dictionary<AttributeName, IGameAttribute> spiritualsAttrs)
+  {
+    Dictionary<SkillName, ISkill> skills = [];
+
+    Experience exp = new(new ExpTable(SPIRITUAL_SKILLS_COEFFICIENT));
+    SkillsManager spiritualSkills = new(exp, skillsExp, spiritualAbilityExp);
+
+    var spr = spiritualsAttrs.GetValueOrDefault(AttributeName.Spirit) ??
+      throw new Exception("Attribute not found!");
+
+    PersonSkill skill = new(exp.Clone(), spr, spiritualSkills);
+    skills.Add(SkillName.Nen, skill.Clone());
+    skills.Add(SkillName.Focus, skill.Clone());
+    skills.Add(SkillName.WillPower, skill.Clone());
+
+    spiritualSkills.Init(skills);
+    return spiritualSkills;
   }
 
   public Hatsu BuildHatsu(ICascadeUpgrade abilityExp)

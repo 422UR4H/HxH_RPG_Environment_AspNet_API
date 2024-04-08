@@ -60,8 +60,9 @@ public enum SkillName
   // Weighting
   // Creativity
 
-  // Spirituals
-  Spirit,
+  // SPIRITUALS
+  // Spirit
+  Nen,
   Focus,
   WillPower
 }

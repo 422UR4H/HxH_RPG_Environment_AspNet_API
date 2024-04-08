@@ -24,20 +24,21 @@ public class SkillsManager(
   }
 
   // TODO: refactor this exception
-  public ISkill Get(SkillName name)
+  public ISkill? Get(SkillName name)
   {
-    return Skills.GetValueOrDefault(name) ??
-      throw new Exception("Skill not found!");
+    return Skills.GetValueOrDefault(name);
   }
 
   public int GetLvlOf(SkillName name)
   {
-    return Get(name).GetLvl();
+    return Get(name)?.GetLvl() ??
+      throw new Exception("Skill not found!");
   }
 
   public int GetValueForTestOf(SkillName name)
   {
-    return Get(name).GetValueForTest();
+    return Get(name)?.GetValueForTest() ??
+      throw new Exception("Skill not found!");
   }
 
   public void CascadeUpgrade(int exp)

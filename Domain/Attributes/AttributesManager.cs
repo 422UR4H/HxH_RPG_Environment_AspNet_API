@@ -6,15 +6,15 @@ public class AttributesManager(Dictionary<AttributeName, IGameAttribute> attribu
 {
   public Dictionary<AttributeName, IGameAttribute> Attributes { get; } = attributes;
 
-  // TODO: refactor this exception
-  public IGameAttribute Get(AttributeName name)
+  public IGameAttribute? Get(AttributeName name)
   {
-    return Attributes.GetValueOrDefault(name) ??
-      throw new Exception("Attribute not found!");
+    return Attributes.GetValueOrDefault(name);
   }
 
+  // TODO: refactor this exception
   public int GetPowerOf(AttributeName name)
   {
-    return Get(name).GetPower();
+    return Get(name)?.GetPower() ??
+      throw new Exception("Attribute not found!");
   }
 }
