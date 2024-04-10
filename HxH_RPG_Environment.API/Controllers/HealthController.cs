@@ -1,7 +1,7 @@
-using HxH_RPG_Environment.Services;
+using HxH_RPG_Environment.API.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HxH_RPG_Environment.Controllers;
+namespace HxH_RPG_Environment.API.Controllers;
 
 [ApiController]
 [Route("health")]

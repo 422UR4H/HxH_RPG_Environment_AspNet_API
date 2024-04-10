@@ -1,4 +1,4 @@
-using HxH_RPG_Environment.Services;
+using HxH_RPG_Environment.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

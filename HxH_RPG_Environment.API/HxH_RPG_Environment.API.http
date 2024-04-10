@@ -1,0 +1,6 @@
+@HxH_RPG_Environment.API_HostAddress = http://localhost:5189
+
+GET {{HxH_RPG_Environment.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

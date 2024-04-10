@@ -1,4 +1,4 @@
-namespace HxH_RPG_Environment.Services;
+namespace HxH_RPG_Environment.API.Services;
 
 public class HealthService
 {
