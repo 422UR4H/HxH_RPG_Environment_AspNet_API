@@ -5,9 +5,8 @@ namespace HxH_RPG_Environment.API.Dtos;
 public class ProfileDto(
   string nickname,
   string fullname,
-  string? description
-  // DateOnly birthday
-  )
+  string? description,
+  DateTime birthday)
 {
   [Required(ErrorMessage = "Field nickname is mandatory")]
   public string Nickname { get; set; } = nickname;
@@ -17,6 +16,7 @@ public class ProfileDto(
 
   public string? Description { get; set; } = description;
 
-  // [Required(ErrorMessage = "Field birthday is mandatory")]
-  // public DateOnly Birthday { get; } = birthday;
+  [DataType(DataType.Date)]
+  [Required(ErrorMessage = "Field birthday is mandatory")]
+  public DateTime Birthday { get; set; } = birthday;
 }
