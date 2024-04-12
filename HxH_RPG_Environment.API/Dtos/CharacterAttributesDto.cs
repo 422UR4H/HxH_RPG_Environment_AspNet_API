@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace HxH_RPG_Environment.API.Dtos;
 
 public class CharacterAttributesDto(
@@ -5,7 +7,12 @@ public class CharacterAttributesDto(
   AttributeDto[] mentalAttributes,
   AttributeDto[] spiritAttributes)
 {
-  public AttributeDto[] PhysicAttributes { get; } = physicAttributes;
-  public AttributeDto[] MentalAttributes { get; } = mentalAttributes;
-  public AttributeDto[] SpiritAttributes { get; } = spiritAttributes;
+  [Required(ErrorMessage = "Field {0} is mandatory")]
+  public AttributeDto[] PhysicAttributes { get; set; } = physicAttributes;
+
+  [Required(ErrorMessage = "Field {0} is mandatory")]
+  public AttributeDto[] MentalAttributes { get; set; } = mentalAttributes;
+
+  [Required(ErrorMessage = "Field {0} is mandatory")]
+  public AttributeDto[] SpiritAttributes { get; set; } = spiritAttributes;
 }
