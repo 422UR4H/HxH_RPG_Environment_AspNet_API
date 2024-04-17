@@ -8,6 +8,6 @@ public interface IAbility : ICascadeUpgrade
 
   public double GetHalfLvl()
   {
-    return Exp.GetLvl() / 2;
+    return (double)Exp.GetLvl() / 2;
   }
 }
