@@ -6,16 +6,27 @@ public class MiddleAttribute(
   Experience exp,
   ICollection<PrimaryAttribute> primaryAttributes) : IGameAttribute
 {
-  public int Points { get; private set; }
+  public int Points
+  {
+    get
+    {
+      int points = 0;
+      foreach (PrimaryAttribute primaryAttribute in PrimaryAttributes)
+      {
+        points += primaryAttribute.Points;
+      }
+      return (int)Math.Round((double)points / (double)PrimaryAttributes.Count);
+    }
+  }
   public Experience Exp { get; } = exp;
   public ICollection<PrimaryAttribute> PrimaryAttributes { get; } = primaryAttributes;
 
   public void CascadeUpgrade(int exp)
   {
     Exp.IncreasePoints(exp);
-    foreach (PrimaryAttribute primaryAttributes in PrimaryAttributes)
+    foreach (PrimaryAttribute primaryAttribute in PrimaryAttributes)
     {
-      primaryAttributes.CascadeUpgrade(exp);
+      primaryAttribute.CascadeUpgrade(exp);
     }
   }
 
@@ -24,9 +35,9 @@ public class MiddleAttribute(
     if (PrimaryAttributes.Count == 0) return 0;
 
     double value = 0;
-    foreach (PrimaryAttribute primaryAttributes in PrimaryAttributes)
+    foreach (PrimaryAttribute primaryAttribute in PrimaryAttributes)
     {
-      value += primaryAttributes.GetHalfOfAbilityLvl();
+      value += primaryAttribute.GetHalfOfAbilityLvl();
     }
     return value / PrimaryAttributes.Count;
   }
