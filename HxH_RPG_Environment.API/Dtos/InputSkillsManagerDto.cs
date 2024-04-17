@@ -2,11 +2,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HxH_RPG_Environment.API.Dtos;
 
-public class HatsuDto(ExperienceDto exp, NenCategoryDto[] categories)
+public class InputSkillsManagerDto(
+  InputExperienceDto exp,
+  InputSkillDto[] skills)
 {
   [Required(ErrorMessage = "Field {0} is mandatory")]
-  public NenCategoryDto[] Categories { get; set; } = categories;
+  public InputExperienceDto Exp { get; set; } = exp;
 
   [Required(ErrorMessage = "Field {0} is mandatory")]
-  public ExperienceDto Exp { get; set; } = exp;
+  public InputSkillDto[] Skills { get; set; } = skills;
 }

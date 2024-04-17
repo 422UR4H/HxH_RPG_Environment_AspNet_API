@@ -2,11 +2,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HxH_RPG_Environment.API.Dtos;
 
-public class PrinciplesManagerDto(NenPrincipleDto[] principle, HatsuDto hatsu)
+public class InputExperienceDto(int points, int level)
 {
   [Required(ErrorMessage = "Field {0} is mandatory")]
-  public NenPrincipleDto[] Principle { get; set; } = principle;
+  public int Points { get; set; } = points;
 
   [Required(ErrorMessage = "Field {0} is mandatory")]
-  public HatsuDto Hatsu { get; set; } = hatsu;
+  public int Level { get; set; } = level;
 }

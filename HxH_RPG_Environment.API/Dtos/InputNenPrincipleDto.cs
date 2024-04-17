@@ -3,11 +3,21 @@ using HxH_RPG_Environment.Domain.Enums;
 
 namespace HxH_RPG_Environment.API.Dtos;
 
-public class NenPrincipleDto(NenPrincipleName name, ExperienceDto exp)
+public class InputNenPrincipleDto(NenPrincipleName name, InputExperienceDto exp)
 {
   [Required(ErrorMessage = "Field {0} is mandatory")]
   public NenPrincipleName Name { get; set; } = name;
 
   [Required(ErrorMessage = "Field {0} is mandatory")]
-  public ExperienceDto Exp { get; set; } = exp;
+  public InputExperienceDto Exp { get; set; } = exp;
+
+  public int GetExpPoints()
+  {
+    return Exp.Points;
+  }
+
+  public int GetLevel()
+  {
+    return Exp.Level;
+  }
 }

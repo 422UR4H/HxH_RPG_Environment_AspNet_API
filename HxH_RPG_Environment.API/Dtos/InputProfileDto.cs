@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HxH_RPG_Environment.API.Dtos;
 
-public class ProfileDto(
+public class InputProfileDto(
   string nickname,
   string fullname,
   string? description,

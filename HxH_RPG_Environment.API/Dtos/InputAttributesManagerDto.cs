@@ -2,8 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HxH_RPG_Environment.API.Dtos;
 
-public class StatusManagerDto(StatusDto[] status)
+public class InputAttributesManagerDto(
+  InputAttributeDto[] attributes)
 {
   [Required(ErrorMessage = "Field {0} is mandatory")]
-  public StatusDto[] Status { get; set; } = status;
+  public InputAttributeDto[] Attributes { get; set; } = attributes;
 }
