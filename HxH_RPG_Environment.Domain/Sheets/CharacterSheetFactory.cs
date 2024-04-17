@@ -72,7 +72,7 @@ public class CharacterSheetFactory()
     );
   }
 
-  public AbilitiesManager BuildPersonAbilities(IEndCascadeUpgrade characterExp)
+  public AbilitiesManager BuildPersonAbilities(CharacterExp characterExp)
   {
     Dictionary<AbilityName, Ability> abilities = [];
 
@@ -93,12 +93,13 @@ public class CharacterSheetFactory()
 
     // TODO: knowlegde exp
 
-    return new AbilitiesManager(abilities, talent);
+    return new AbilitiesManager(characterExp, abilities, talent);
   }
 
   public AttributesManager BuildPhysAttrs(IAbility physAbilityExp)
   {
-    Dictionary<AttributeName, IGameAttribute> attributes = [];
+    Dictionary<AttributeName, PrimaryAttribute> primaryAttributes = [];
+    Dictionary<AttributeName, MiddleAttribute> middleAttributes = [];
 
     Experience exp = new(new ExpTable(PHYSICAL_ATTRIBUTE_COEFFICIENT));
     PrimaryAttribute primaryAttribute = new(exp, physAbilityExp);
@@ -106,31 +107,31 @@ public class CharacterSheetFactory()
     PrimaryAttribute constitution = primaryAttribute.Clone();
     PrimaryAttribute strength = primaryAttribute.Clone();
     MiddleAttribute defense = new(exp.Clone(), [constitution, strength]);
-    attributes.Add(AttributeName.Constitution, constitution);
-    attributes.Add(AttributeName.Strength, strength);
-    attributes.Add(AttributeName.Defense, defense);
+    primaryAttributes.Add(AttributeName.Constitution, constitution);
+    primaryAttributes.Add(AttributeName.Strength, strength);
+    middleAttributes.Add(AttributeName.Defense, defense);
 
     PrimaryAttribute agility = primaryAttribute.Clone();
     MiddleAttribute velocity = new(exp.Clone(), [strength, agility]);
-    attributes.Add(AttributeName.Agility, agility);
-    attributes.Add(AttributeName.Velocity, velocity);
+    primaryAttributes.Add(AttributeName.Agility, agility);
+    middleAttributes.Add(AttributeName.Velocity, velocity);
 
     PrimaryAttribute flexibility = primaryAttribute.Clone();
     MiddleAttribute actionSpeed = new(exp.Clone(), [agility, flexibility]);
-    attributes.Add(AttributeName.Flexibility, flexibility);
-    attributes.Add(AttributeName.ActionSpeed, actionSpeed);
+    primaryAttributes.Add(AttributeName.Flexibility, flexibility);
+    middleAttributes.Add(AttributeName.ActionSpeed, actionSpeed);
 
     PrimaryAttribute sense = primaryAttribute.Clone();
     MiddleAttribute dexterity = new(exp.Clone(), [flexibility, sense]);
-    attributes.Add(AttributeName.Sense, sense);
-    attributes.Add(AttributeName.Dexterity, dexterity);
+    primaryAttributes.Add(AttributeName.Sense, sense);
+    middleAttributes.Add(AttributeName.Dexterity, dexterity);
 
-    return new AttributesManager(attributes);
+    return new AttributesManager(primaryAttributes, middleAttributes);
   }
 
   public AttributesManager BuildMentalAttrs(IAbility mentalAbilityExp)
   {
-    Dictionary<AttributeName, IGameAttribute> attributes = [];
+    Dictionary<AttributeName, PrimaryAttribute> attributes = [];
 
     Experience exp = new(new ExpTable(MENTAL_ATTRIBUTE_COEFFICIENT));
     PrimaryAttribute attribute = new(exp, mentalAbilityExp);
@@ -140,19 +141,21 @@ public class CharacterSheetFactory()
     attributes.Add(AttributeName.Weighting, attribute.Clone());
     attributes.Add(AttributeName.Creativity, attribute.Clone());
 
-    return new AttributesManager(attributes);
+    // TODO: create middle attributes and finish this
+    return new AttributesManager(attributes, []);
   }
 
   public AttributesManager BuildSpiritualAttrs(IAbility spiritualAbilityExp)
   {
-    Dictionary<AttributeName, IGameAttribute> attributes = [];
+    Dictionary<AttributeName, PrimaryAttribute> attributes = [];
 
     Experience exp = new(new ExpTable(SPIRITUAL_ATTRIBUTE_COEFFICIENT));
     PrimaryAttribute attribute = new(exp, spiritualAbilityExp);
 
     attributes.Add(AttributeName.Spirit, attribute);
 
-    return new AttributesManager(attributes);
+    // TODO: create middle attributes and finish this
+    return new AttributesManager(attributes, []);
   }
 
   public StatusManager BuildStatusManager()
