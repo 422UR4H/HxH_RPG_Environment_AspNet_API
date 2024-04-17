@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HxH_RPG_Environment.Domain\HxH_RPG_Environment.Domain.csproj" />
+    <ProjectReference Include="..\HxH_RPG_Environment.Application\HxH_RPG_Environment.Application.csproj" />
   </ItemGroup>
 
 </Project>
