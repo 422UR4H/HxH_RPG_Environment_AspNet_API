@@ -7,4 +7,8 @@
     <RootNamespace>HxH_RPG_Environment.Application</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HxH_RPG_Environment.Domain\HxH_RPG_Environment.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
