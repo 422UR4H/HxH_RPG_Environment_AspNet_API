@@ -7,7 +7,7 @@ public class PrimaryAttribute(
   Experience exp,
   IAbility ability) : IGameAttribute
 {
-  public int Points { get; private set; }
+  public int Points { get; set; }
   public Experience Exp { get; } = exp;
   public IAbility Ability { get; } = ability;
 
