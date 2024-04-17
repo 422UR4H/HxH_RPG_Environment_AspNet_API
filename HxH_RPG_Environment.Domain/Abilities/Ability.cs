@@ -12,4 +12,14 @@ public class Ability(Experience exp, IEndCascadeUpgrade characterExp) : IAbility
     Exp.IncreasePoints(exp);
     CharacterExp.TriggerEndUpgrade(exp);
   }
+
+  public int GetExpPoints()
+  {
+    return Exp.Points;
+  }
+
+  public int GetLevel()
+  {
+    return Exp.GetLvl();
+  }
 }

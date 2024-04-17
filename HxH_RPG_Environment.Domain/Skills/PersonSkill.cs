@@ -29,6 +29,16 @@ public class PersonSkill(
     return Exp.GetLvl() + Attribute.GetPower();
   }
 
+  public int GetExpPoints()
+  {
+    return Exp.Points;
+  }
+
+  public int IncreaseExp(int points)
+  {
+    return Exp.IncreasePoints(points);
+  }
+
   public PersonSkill Clone()
   {
     return new PersonSkill(Exp.Clone(), Attribute, AbilitySkillsExp);

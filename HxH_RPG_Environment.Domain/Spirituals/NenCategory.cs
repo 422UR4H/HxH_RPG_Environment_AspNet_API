@@ -18,6 +18,16 @@ public class NenCategory(Experience exp, ICascadeUpgrade hatsuExp) : ITriggerCas
     return Exp.GetLvl();
   }
 
+  public int GetExpPoints()
+  {
+    return Exp.Points;
+  }
+
+  public int IncreaseExp(int points)
+  {
+    return Exp.IncreasePoints(points);
+  }
+
   public NenCategory Clone()
   {
     return new NenCategory(Exp.Clone(), HatsuExp);

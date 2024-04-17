@@ -34,6 +34,26 @@ public class Hatsu(
     return Get(name).GetLvl();
   }
 
+  public int GetExpPoints()
+  {
+    return Exp.Points;
+  }
+
+  public int GetExpPoints(NenCategoryName name)
+  {
+    return Get(name).GetExpPoints();
+  }
+
+  public int IncreaseExp(int points)
+  {
+    return Exp.IncreasePoints(points);
+  }
+
+  public int IncreaseExp(int points, NenCategoryName name)
+  {
+    return Get(name).IncreaseExp(points);
+  }
+
   public void CascadeUpgrade(int exp)
   {
     Exp.IncreasePoints(exp);

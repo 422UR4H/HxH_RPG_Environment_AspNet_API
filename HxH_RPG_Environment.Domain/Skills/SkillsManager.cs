@@ -42,6 +42,12 @@ public class SkillsManager(
       throw new Exception("Skill not found!");
   }
 
+  public int IncreaseExp(int exp, SkillName name)
+  {
+    return Get(name)?.IncreaseExp(exp) ??
+      throw new Exception("Skill not found!"); ;
+  }
+
   public void CascadeUpgrade(int exp)
   {
     Exp.IncreasePoints(exp);

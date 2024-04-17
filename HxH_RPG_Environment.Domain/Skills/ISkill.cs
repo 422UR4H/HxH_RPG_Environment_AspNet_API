@@ -10,4 +10,6 @@ public interface ISkill : ITriggerCascadeExp
 
   public int GetLvl();
   public int GetValueForTest();
+  public int GetExpPoints();
+  public int IncreaseExp(int points);
 }

@@ -24,4 +24,19 @@ public class CharacterSkills(
   {
     return Get(name).GetValueForTest();
   }
+
+  public int GetExpPointsOf(SkillName name)
+  {
+    return Get(name).GetExpPoints();
+  }
+
+  public int GetLevelOf(SkillName name)
+  {
+    return Get(name).GetLvl();
+  }
+
+  public int IncreaseExp(int points, SkillName name)
+  {
+    return Get(name).IncreaseExp(points);
+  }
 }

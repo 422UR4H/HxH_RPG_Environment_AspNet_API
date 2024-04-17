@@ -11,4 +11,6 @@ public interface IPrinciple
   {
     return Exp.GetLvl();
   }
+  public int GetExpPoints();
+  public int IncreaseExp(int points);
 }

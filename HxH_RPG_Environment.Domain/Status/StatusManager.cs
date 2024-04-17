@@ -12,4 +12,14 @@ public class StatusManager(Dictionary<StatusName, IStatus> status)
     return Status.GetValueOrDefault(name)
       ?? throw new Exception("Status not found!");
   }
+
+  public int GetMaxOf(StatusName name)
+  {
+    return Get(name).Max;
+  }
+
+  public int GetMinOf(StatusName name)
+  {
+    return Get(name).Min;
+  }
 }

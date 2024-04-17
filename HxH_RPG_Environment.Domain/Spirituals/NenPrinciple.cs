@@ -15,6 +15,16 @@ public class NenPrinciple(
     AbilityExp.CascadeUpgrade(exp);
   }
 
+  public int GetExpPoints()
+  {
+    return Exp.Points;
+  }
+
+  public int IncreaseExp(int points)
+  {
+    return Exp.IncreasePoints(points);
+  }
+
   public NenPrinciple Clone()
   {
     return new NenPrinciple(Exp.Clone(), AbilityExp);
