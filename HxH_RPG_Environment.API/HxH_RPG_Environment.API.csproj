@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\HxH_RPG_Environment.Domain\HxH_RPG_Environment.Domain.csproj" />
     <ProjectReference Include="..\HxH_RPG_Environment.Application\HxH_RPG_Environment.Application.csproj" />
+    <ProjectReference Include="..\HxH_RPG_Environment.Infrastructure.Data\HxH_RPG_Environment.Infrastructure.Data.csproj" />
   </ItemGroup>
 
 </Project>
